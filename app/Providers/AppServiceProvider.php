@@ -28,5 +28,10 @@ class AppServiceProvider extends ServiceProvider
         if (env('APP_ENV') == 'production') {
             $url->forceScheme('https');
         }
+        $migrationsPath = database_path('migrations');
+        $directories = glob($migrationsPath.'/*', GLOB_ONLYDIR);
+        $paths = array_merge([$migrationsPath], $directories);
+        
+        $this->loadMigrationsFrom($paths);
     }
 }
