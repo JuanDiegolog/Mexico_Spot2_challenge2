@@ -8,18 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Log;
-
-/**
- * @OA\Tag(
- *     name="UrlShortener",
- *     description="Operaciones relacionadas con el acortador de URLs"
- * )
- */
 /**
  * @OA\Info(
  *     title="API de Acortador de URLs",
  *     version="1.0.0",
- *     description="test"
+ *     description="API para acortar URLs"
  * )
  */
 class UrlShortenerController extends Controller
@@ -27,7 +20,6 @@ class UrlShortenerController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/UrlShortener/shorten",
-     *     tags={"UrlShortener"},
      *     summary="Acortar una URL",
      *     @OA\RequestBody(
      *         required=true,
@@ -57,8 +49,8 @@ class UrlShortenerController extends Controller
 
         if ($existingUrl) {
             // Guardar en Redis
-            Redis::setex('url:original:' . $request->original_url,3600, $existingUrl->shortened_url);
-            Redis::setex('url:shortened:' . $existingUrl->shortened_url,3600, $request->original_url);
+            Redis::set('url:original:' . $request->original_url, $existingUrl->shortened_url);
+            Redis::set('url:shortened:' . $existingUrl->shortened_url, $request->original_url);
 
             return response()->json(['shortened_url' => url('api/v1/UrlShortener/' . $existingUrl->shortened_url)], 200);
         }
@@ -72,8 +64,8 @@ class UrlShortenerController extends Controller
 
         // Guardar en Redis si está disponible
         try {
-            Redis::setex('url:original:' . $request->original_url,3600, $shortened);
-            Redis::setex('url:shortened:' . $shortened,3600, $request->original_url);
+            Redis::set('url:original:' . $request->original_url, $shortened);
+            Redis::set('url:shortened:' . $shortened, $request->original_url);
         } catch (Exception $e) {
             Log::warning('Redis no está disponible: ' . $e->getMessage());
         }
@@ -84,7 +76,6 @@ class UrlShortenerController extends Controller
     /**
      * @OA\Get(
      *     path="/api/v1/UrlShortener/{shortened}",
-     *     tags={"UrlShortener"},
      *     summary="Redireccionar a la URL original",
      *     @OA\Parameter(
      *         name="shortened",
