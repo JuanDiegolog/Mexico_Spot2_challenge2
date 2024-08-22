@@ -11,7 +11,8 @@
         "php": "^8.0",
         "darkaonline/l5-swagger": "^8.6",
         "laravel/framework": "^11.0",
-        "laravel/tinker": "^2.9"
+        "laravel/tinker": "^2.9",
+        "predis/predis": "^2.2"
     },
     "require-dev": {
         "filp/whoops": "^2.15",
