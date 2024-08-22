@@ -9,22 +9,17 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Log;
 
-
-
+/**
+ * @OA\Tag(
+ *     name="UrlShortener",
+ *     description="Operaciones relacionadas con el acortador de URLs"
+ * )
+ */
 /**
  * @OA\Info(
  *     title="API de Acortador de URLs",
  *     version="1.0.0",
- *     description="test",
- *     path="/api/v1/UrlShortener",
- * )
- */
-
-/**
- * @OA\Tag(
- *     name="UrlShortener",
- *     path="/api/v1/UrlShortener",
- *     description="Operaciones relacionadas con el acortador de URLs"
+ *     description="test"
  * )
  */
 class UrlShortenerController extends Controller

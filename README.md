@@ -1,22 +1,24 @@
-# Laravel 11 with a Docker PHP Image
+# Laravel 11 con una Imagen Docker de PHP
 
-A demo repo for deploying a Laravel PHP application on [Render](https://render.com) using Docker. You can follow the getting started tutorial [here](https://render.com/docs/deploy-php-laravel-docker).
+Un repositorio de demostración para desplegar una aplicación PHP de Laravel en [Render](https://render.com) usando Docker. Puedes seguir el tutorial de inicio [aquí](https://render.com/docs/deploy-php-laravel-docker).
 
+## Despliegue
 
-## Deployment
+1. [Crea](https://dashboard.render.com/new/database) una nueva base de datos PostgreSQL en Render y copia la URL interna de la base de datos para usarla a continuación.
 
-1. [Create](https://dashboard.render.com/new/database) a new PostgreSQL database on Render and copy the internal DB URL to use below.
+2. [Crea](https://dashboard.render.com/new/redis) un nuevo servicio Redis en Render y copia la URL interna del servicio para usarla a continuación.
 
-2. Fork this repo to your own GitHub account.
+3. Haz un fork de este repositorio en tu propia cuenta de GitHub.
 
-3. Create a new **Web Service** on Render, and give Render's GitHub app permission to access your new repo.
+4. Crea un nuevo **Servicio Web** en Render y da permiso a la aplicación de GitHub de Render para acceder a tu nuevo repositorio.
 
-4. Select `Docker` for the environment, and add the following environment variable under the *Advanced* section:
+5. Selecciona `Docker` para el entorno y agrega las siguientes variables de entorno en la sección *Avanzada*:
 
-   | Key             | Value           |
+   | Clave           | Valor           |
    | --------------- | --------------- |
-   | `APP_KEY`  | Copy the output of `php artisan key:generate --show` |
-   | `DATABASE_URL`  | The **internal database url** for the database you created above. |
-   | `DB_CONNECTION`  | `pgsql` |
+   | `APP_KEY`       | Copia el resultado de `php artisan key:generate --show` |
+   | `DATABASE_URL`  | La **URL interna de la base de datos** PostgreSQL que creaste anteriormente. |
+   | `DB_CONNECTION` | `pgsql` |
+   | `REDIS_URL`     | La **URL interna del servicio Redis** que creaste anteriormente. |
 
-That's it! Your Laravel 11 app will be live on your Render URL as soon as the build finishes. You can test it out by registering and logging in.
+¡Eso es todo! Tu aplicación Laravel 11 estará en vivo en tu URL de Render tan pronto como termine la compilación. Puedes probarla registrándote e iniciando sesión.

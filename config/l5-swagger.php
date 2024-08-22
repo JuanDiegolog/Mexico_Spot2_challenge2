@@ -40,8 +40,8 @@ return [
                  */
                 'annotations' => [
                     // base_path('app'),
-                    base_path('app/Http/Controllers/HomeController.php'),
-                
+                    base_path('app/Http/Controllers'),
+
                 ],
             ],
         ],
@@ -151,7 +151,7 @@ return [
 
         /*
          * API security definitions. Will be generated into documentation file.
-        */
+         */
         'securityDefinitions' => [
             'securitySchemes' => [
                 /*
