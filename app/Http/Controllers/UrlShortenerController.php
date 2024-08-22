@@ -41,7 +41,7 @@ class UrlShortenerController extends Controller
         $cachedShortened = Redis::connection()->get('url:original:' . $request->original_url);
 
         if ($cachedShortened) {
-            return response()->json(['shortened_url' => $cachedShortened], 200);
+            return response()->json(['shortened_url' => url('api/v1/UrlShortener/' .$cachedShortened)], 200);
         }
 
         // Buscar en la base de datos
