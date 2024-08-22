@@ -38,7 +38,7 @@ class UrlShortenerController extends Controller
         ]);
 
         // Buscar en Redis
-        $cachedShortened = Redis::connection()->setOption(\Redis::OPT_READ_TIMEOUT, 1)->get('url:original:' . $request->original_url);
+        $cachedShortened = Redis::connection()->get('url:original:' . $request->original_url);
 
         if ($cachedShortened) {
             return response()->json(['shortened_url' => $cachedShortened], 200);
@@ -49,8 +49,8 @@ class UrlShortenerController extends Controller
 
         if ($existingUrl) {
             // Guardar en Redis
-            Redis::set('url:original:' . $request->original_url, $existingUrl->shortened_url);
-            Redis::set('url:shortened:' . $existingUrl->shortened_url, $request->original_url);
+            Redis::setex('url:original:' . $request->original_url,3600, $existingUrl->shortened_url);
+            Redis::setex('url:shortened:' . $existingUrl->shortened_url,3600, $request->original_url);
 
             return response()->json(['shortened_url' => url('api/v1/UrlShortener/' . $existingUrl->shortened_url)], 200);
         }
@@ -64,8 +64,8 @@ class UrlShortenerController extends Controller
 
         // Guardar en Redis si está disponible
         try {
-            Redis::set('url:original:' . $request->original_url, $shortened);
-            Redis::set('url:shortened:' . $shortened, $request->original_url);
+            Redis::setex('url:original:' . $request->original_url,3600, $shortened);
+            Redis::setex('url:shortened:' . $shortened,3600, $request->original_url);
         } catch (Exception $e) {
             Log::warning('Redis no está disponible: ' . $e->getMessage());
         }
